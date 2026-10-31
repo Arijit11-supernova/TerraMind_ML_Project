@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ML experiment tracking
+mlruns/
+artifacts/mlflow/
+*.db-shm
+*.db-wal
+
+# Generated model artifacts and checkpoints
+artifacts/models/
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.onnx
+
+# Generated outputs
+logs/
+outputs/
+reports/generated/
+
+# Large datasets
+data/raw/
+data/processed/
+
+# Temporary files
+*.tmp
+*.log

@@ -1,0 +1,9 @@
+model,season,observations,actual_positive,predicted_positive,precision,recall,f1,pr_auc,false_positives,false_negatives,true_positives,true_negatives
+Logistic Regression,Monsoon (Jun-Sep),4392,101,376,0.1196808510638298,0.44554455445544555,0.18867924528301888,0.124683849004257,331,56,45,3960
+Logistic Regression,Post-monsoon (Oct-Dec),3312,14,0,0.0,0.0,0.0,0.009161396165323316,0,14,0,3298
+Logistic Regression,Pre-monsoon (Mar-May),3312,10,24,0.0,0.0,0.0,0.02267773050983308,24,10,0,3278
+Logistic Regression,Winter (Jan-Feb),2136,0,0,0.0,0.0,0.0,,0,0,0,2136
+Random Forest,Monsoon (Jun-Sep),4392,101,265,0.12075471698113208,0.31683168316831684,0.17486338797814208,0.08082250178406404,233,69,32,4058
+Random Forest,Post-monsoon (Oct-Dec),3312,14,0,0.0,0.0,0.0,0.010673431386100465,0,14,0,3298
+Random Forest,Pre-monsoon (Mar-May),3312,10,0,0.0,0.0,0.0,0.02346979959804004,0,10,0,3302
+Random Forest,Winter (Jan-Feb),2136,0,0,0.0,0.0,0.0,,0,0,0,2136
