@@ -46,3 +46,6 @@ data/processed/
 # Temporary files
 *.tmp
 *.log
+
+# Persistent champion state
+artifacts/champion/champion_state.json

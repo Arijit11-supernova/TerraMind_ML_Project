@@ -6,8 +6,9 @@ and promotion history.
 
 It does not deploy models or serve predictions.
 """
-
+import json
 from datetime import datetime, timezone
+from pathlib import Path
 
 from src.models.model_promotion import evaluate_candidate
 
@@ -15,9 +16,37 @@ from src.models.model_promotion import evaluate_candidate
 class ChampionManager:
     """Manage the currently selected model and promotion history."""
 
-    def __init__(self):
+    def __init__(self, state_path="artifacts/champion/champion_state.json"):
+        self._state_path = Path(state_path)
         self._champion = None
         self._history = []
+        self._load_state()
+
+    def _save_state(self):
+        """Persist the champion and promotion history to JSON."""
+        self._state_path.parent.mkdir(parents=True, exist_ok=True)
+
+        state = {
+            "champion": self._champion,
+            "history": self._history,
+        }
+
+        temporary_path = self._state_path.with_suffix(".tmp")
+        with temporary_path.open("w", encoding="utf-8") as file:
+            json.dump(state, file, indent=2)
+
+        temporary_path.replace(self._state_path)
+
+    def _load_state(self):
+        """Restore previously persisted champion state."""
+        if not self._state_path.exists():
+            return
+
+        with self._state_path.open("r", encoding="utf-8") as file:
+            state = json.load(file)
+
+        self._champion = state.get("champion")
+        self._history = state.get("history", [])
 
     @property
     def champion(self):
@@ -66,6 +95,7 @@ class ChampionManager:
         if not decision.approved:
             event["status"] = "rejected"
             self._history.append(event)
+            self._save_state()
 
             return {
                 "promoted": False,
@@ -87,6 +117,7 @@ class ChampionManager:
         event["status"] = "promoted"
         event["new_champion"] = self._champion.copy()
         self._history.append(event)
+        self._save_state()
 
         return {
             "promoted": True,
@@ -165,6 +196,7 @@ class ChampionManager:
                 "new_champion": target.copy(),
             }
         )
+        self._save_state()
 
         return {
             "rolled_back": True,
