@@ -1,8 +1,9 @@
 """
-Evaluate the latest MLflow model candidates using validation metrics.
+Evaluate MLflow model candidates and update Champion selection.
 
-This script records promotion decisions on existing MLflow runs.
-It does not register, deploy, or replace any model.
+This script records promotion decisions on MLflow runs
+and persists the selected Champion model reference.
+It does not deploy or serve predictions.
 """
 
 import json
@@ -10,6 +11,7 @@ import json
 import mlflow
 from mlflow.tracking import MlflowClient
 
+from src.models.champion_manager import ChampionManager
 from src.models.model_promotion import evaluate_candidate
 
 
@@ -25,6 +27,7 @@ MODEL_NAMES = {
 def main():
     mlflow.set_tracking_uri(TRACKING_URI)
     client = MlflowClient(tracking_uri=TRACKING_URI)
+    champion_manager = ChampionManager()
 
     experiment = client.get_experiment_by_name(EXPERIMENT_NAME)
 
@@ -77,10 +80,6 @@ def main():
                 "Missing validation metrics: "
                 + ", ".join(missing)
             )
-            print(
-                "Run the updated training script before "
-                "evaluating this candidate."
-            )
             continue
 
         decision = evaluate_candidate(
@@ -118,6 +117,21 @@ def main():
 
         for reason in decision.reasons:
             print(f"- {reason}")
+
+        result = champion_manager.promote(
+            model_name=model_name,
+            run_id=run.info.run_id,
+            validation_pr_auc=metrics["validation_pr_auc"],
+            validation_f1=metrics["validation_f1"],
+        )
+
+        print(
+            "Champion update: "
+            + ("PROMOTED" if result["promoted"] else "NOT PROMOTED")
+        )
+
+    print("\nCurrent Champion:")
+    print(champion_manager.champion)
 
     print("\nPromotion evaluation finished.")
 

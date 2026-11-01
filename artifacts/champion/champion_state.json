@@ -1,0 +1,46 @@
+
+{
+  "champion": {
+    "model_name": "logistic_regression",
+    "run_id": "efc60eb2aa60433790dbfc204f6594c6",
+    "validation_pr_auc": 0.10192293857522357,
+    "validation_f1": 0.17142857142857143
+  },
+  "history": [
+    {
+      "timestamp": "2026-11-01T11:09:56.703095+00:00",
+      "action": "promotion",
+      "model_name": "logistic_regression",
+      "run_id": "efc60eb2aa60433790dbfc204f6594c6",
+      "previous_champion": null,
+      "approved": true,
+      "reasons": [
+        "Candidate meets all configured validation requirements."
+      ],
+      "status": "promoted",
+      "new_champion": {
+        "model_name": "logistic_regression",
+        "run_id": "efc60eb2aa60433790dbfc204f6594c6",
+        "validation_pr_auc": 0.10192293857522357,
+        "validation_f1": 0.17142857142857143
+      }
+    },
+    {
+      "timestamp": "2026-11-01T11:09:56.712610+00:00",
+      "action": "promotion",
+      "model_name": "random_forest",
+      "run_id": "747a8695f1274e2381a41b87f22abe9d",
+      "previous_champion": {
+        "model_name": "logistic_regression",
+        "run_id": "efc60eb2aa60433790dbfc204f6594c6",
+        "validation_pr_auc": 0.10192293857522357,
+        "validation_f1": 0.17142857142857143
+      },
+      "approved": false,
+      "reasons": [
+        "Validation PR-AUC 0.0691 is below the minimum 0.0800."
+      ],
+      "status": "rejected"
+    }
+  ]
+}
