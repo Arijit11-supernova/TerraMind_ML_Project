@@ -49,3 +49,5 @@ data/processed/
 
 # Persistent champion state
 artifacts/champion/champion_state.json
+
+data/live_cache/
